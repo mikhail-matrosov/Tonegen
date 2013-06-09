@@ -1,5 +1,7 @@
 package pckg;
 
+import java.util.Random;
+
 public class Synthesizer {
 	private final double SAMPLING_RATE;
 
@@ -26,6 +28,9 @@ public class Synthesizer {
 	
 	double phase = 0; // phase of signal
 	
+	Random random = new Random();
+	double noizePhase = 0;
+	
 	public double getNextSample() {
 		laceTime += 1/SAMPLING_RATE;
 		if (laceTime<laceDuration) {
@@ -42,15 +47,6 @@ public class Synthesizer {
 		} else {
 			cVol = tVol;
 		}
-		
-		// quality
-		double Q = 20;
-		double q = 1 - 2*Math.PI/SAMPLING_RATE/cFreq*Q;
-		q = q>0 ? q : 0;
-		noize1 += Math.random()-0.5;
-		noize1 *= q;
-		noize2 += noize1;
-		noize2 *= q;
 
 		//System.out.println(""+noize1+"\t"+noize2);
 		
@@ -59,7 +55,17 @@ public class Synthesizer {
 		
 		switch (shape) {
 		case 0:
-			return cVol * Math.sin(noize2/400);
+			/*noizePhase += cFreq*random.nextGaussian()*0.2/SAMPLING_RATE;
+			noizePhase %= 1;
+			
+			double noizeRe = Math.cos(noizePhase*2*Math.PI);
+			double noizeIm = Math.sin(noizePhase*2*Math.PI);
+			
+			double re = Math.cos(phase*2*Math.PI);
+			double im = Math.sin(phase*2*Math.PI);
+			
+			return cVol * (re*noizeRe-im*noizeIm);*/
+			return cVol * Math.sin(phase*2*Math.PI);
 		case 1:
 			return cVol * (phase>0.5 ? 1 : -1);
 		case 2:

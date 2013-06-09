@@ -16,7 +16,7 @@ import java.awt.event.WindowEvent;
 
 public class UI extends Frame {
 
-	final int SAMPLING_RATE = 48000;
+	static int SAMPLING_RATE;
 	final Synthesizer synth = new Synthesizer(SAMPLING_RATE);
 	
 	final int wheelsCount = 8;
@@ -25,6 +25,7 @@ public class UI extends Frame {
 	
 	Label lVolume;
 	Label lShape;
+	Label lSampRate;
 	
 	double frequency = 0;
 	final double MAX_FREQ = 99999.999;
@@ -157,6 +158,14 @@ public class UI extends Frame {
 		lShape.setFont(new Font("MONOSPACED", Font.BOLD, 20));
 		lShape.setBounds(240, 90, 50, 20);
 		pane.add(lShape);
+		
+		// print sampling rate
+		lSampRate = new Label();
+		lSampRate.setFont(new Font("MONOSPACED", Font.BOLD, 15));
+		lSampRate.setBounds(170, 190, 120, 20);
+		pane.add(lSampRate);
+		lSampRate.setAlignment(Label.RIGHT);
+		lSampRate.setText("SR: "+SAMPLING_RATE);
 		
 		// print help
 		Font helpFont = new Font("MONOSPACED", Font.BOLD, 15);

@@ -6,15 +6,22 @@ import javax.sound.sampled.*;
 
 public class Core extends UI {
 	private SampleThread m_thread;
+	
+	static int sampleRates[] = new int[]{192000, 176400, 96000, 88200, 48000, 44100};
 
 	// Launch the app
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					Core frame = new Core();
-				} catch (Exception e) {
-					e.printStackTrace();
+				boolean flag = true;
+					for(int sampleRateNo = 0; flag; sampleRateNo++) {
+					try {
+						SAMPLING_RATE = sampleRates[sampleRateNo];
+						Core frame = new Core();
+						flag = false;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
